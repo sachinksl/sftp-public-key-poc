@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7bea2966-a2c2-4618-a9f2-615b010278de" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="ff7fdf50-d91f-42d4-8faa-affb0540f8b2" >
+		<sftp:connection host="3.90.226.160" username="ec2-user" identityFile="C:\SV\mule4wkspace\sftp-public-key-poc\src\main\resources\sftp-key" passphrase="Monday$100"/>
+	</sftp:config>
+	<flow name="sftp-public-key-pocFlow" doc:id="ae7da3b2-7f55-4c45-ae9d-4ea38ad9d525" >
+		<http:listener doc:name="Listener" doc:id="3e995cd4-bfd3-48f5-b4ed-1ca19ce5ea81" config-ref="HTTP_Listener_config" path="/sftp"/>
+		<logger level="INFO" doc:name="Logger" doc:id="22d01dde-5b69-4041-9fc8-dde2423e8daa" message="Initialize to Connect to SFTP Connector"/>
+		<sftp:list doc:name="List" doc:id="d217163e-a822-4e4d-9e23-67b29e90a7c2" config-ref="SFTP_Config" directoryPath="/home/ec2-user"/>
+		<logger level="INFO" doc:name="Logger" doc:id="65d66d7d-9c86-42c3-a44b-f4bff488ce45" message="SFTP Files List Completed"/>
+	</flow>
+</mule>
